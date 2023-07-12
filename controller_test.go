@@ -1,4 +1,4 @@
-package src
+package version_control
 
 import (
 	"fmt"
@@ -15,11 +15,11 @@ var controller = NewController(&dbMySQL)
 
 func TestInitTable(t *testing.T) {
 	initMySQLDB()
-	controller.Init()
+	controller.Start("sql/")
 }
 
 func TestFileNameCheck(t *testing.T) {
-	controller.QuerySqlFiles("../sql/")
+	controller.QuerySqlFiles("sql/")
 }
 
 func TestHashCheck(t *testing.T) {
@@ -28,7 +28,7 @@ func TestHashCheck(t *testing.T) {
 
 func TestFilesCheck(t *testing.T) {
 	controller.QueryAllVersion()
-	controller.ReadFilesInDisk("../sql/")
+	controller.ReadFilesInDisk("sql/")
 	controller.CheckSqlFiles()
 	controller.ExecuteSqlFiles()
 }

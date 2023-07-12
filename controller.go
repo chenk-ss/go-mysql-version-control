@@ -1,4 +1,4 @@
-package src
+package version_control
 
 import (
 	"crypto/sha256"
@@ -45,7 +45,7 @@ func NewController(db *gorm.DB) *MySQLVersionController {
 }
 
 // Init table
-func (c *MySQLVersionController) Init() {
+func (c *MySQLVersionController) Start(path string) {
 	if err := DB.Exec("SELECT * FROM `sql_version` LIMIT 1").Error; err != nil {
 		exec(SQLVersion{
 			Version:    "0.0.0",
@@ -54,6 +54,10 @@ func (c *MySQLVersionController) Init() {
 			CreateTime: time.Now(),
 		})
 	}
+	c.QueryAllVersion()
+	c.ReadFilesInDisk(path)
+	c.CheckSqlFiles()
+	c.ExecuteSqlFiles()
 }
 
 // Query all executed versions

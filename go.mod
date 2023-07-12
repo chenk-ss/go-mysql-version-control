@@ -1,4 +1,4 @@
-module go-mysql-version-control
+module github.com/chenk-ss/go-mysql-version-control
 
 go 1.20
 

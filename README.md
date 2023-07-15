@@ -17,3 +17,4 @@ sqlVersionController.NewController(&dbMySQL).Start("sql/")
 ```
 
 The type of dbMySQL is *sql.DB, and the parameter of func Start() is your sql files' relative path from your module.
+The name of sql files must be of the form x.x.x_name.sql, where x is number

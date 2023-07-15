@@ -76,7 +76,7 @@ func (c *MySQLVersionController) QueryAllVersion() {
 }
 
 // Check sql files' names are legal
-// file name must has the format x.x.x_name.sql x is number
+// The name of sql files must be of the form x.x.x_name.sql, where x is number
 func (c *MySQLVersionController) QuerySqlFiles(path string) []fs.DirEntry {
 	files, err := os.ReadDir(path)
 	if err != nil {
@@ -149,20 +149,20 @@ func exec(version SQLVersion) {
 	// Note the use of tx as the database handle once you are within a transaction
 	tx := DB.Begin()
 	if err := tx.Error; err != nil {
-		log.Panic("Execute sql error1")
+		log.Panic("Execute sql error. Begin tx error.")
 	}
 	if err := tx.Exec(version.Hash).Error; err != nil {
 		tx.Rollback()
-		log.Panic("Execute sql error2")
+		log.Panic("Execute sql error. Execute sql error.")
 	}
 	version.Hash = Hash(version.Hash)
 	if err := tx.Table(TABLE_NAME).Create(version).Error; err != nil {
 		tx.Rollback()
-		log.Panic("Execute sql error3")
+		log.Panic("Execute sql error. Insert record error.")
 	}
 	if err := tx.Commit().Error; err != nil {
 		tx.Rollback()
-		log.Panic("Execute sql error4")
+		log.Panic("Execute sql error. Commit tx error.")
 	}
 }
 
